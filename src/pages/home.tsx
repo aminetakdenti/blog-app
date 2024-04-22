@@ -1,7 +1,8 @@
+import { useBlog } from "@/BlogContext";
 import Blog from "@/components/blog";
-import { blogs } from "@/constant";
 
-export default function home() {
+export default function Home() {
+  const { blogs } = useBlog();
   return (
     <div className="flex flex-col gap-4 divide-y">
       {blogs.map((blog, index) => (
