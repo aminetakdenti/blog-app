@@ -1,18 +1,27 @@
-import { useState } from "react";
+import { useState, useId, FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@radix-ui/react-label";
 import { Button } from "@/components/ui/button";
+import { useBlog } from "@/BlogContext";
 
 export default function Upload() {
+  const { addBlog } = useBlog();
+  const id = useId();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const navigate = useNavigate();
+
+  function handleSubmit(e: FormEvent) {
+    e.preventDefault();
+    console.log({ title, content });
+    addBlog({ id: parseInt(id), title, content });
+    navigate("/");
+  }
 
   return (
-    <form
-      className="flex flex-col gap-6"
-      onSubmit={() => console.log("submit")}
-    >
+    <form className="flex flex-col gap-6" onSubmit={(e) => handleSubmit(e)}>
       <div className="flex flex-col gap-2">
         <Label htmlFor="title">Title</Label>
         <Input

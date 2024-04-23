@@ -22,7 +22,7 @@ export const BlogContextProvider = ({ children }: { children: ReactNode }) => {
   const [blogs, setBlogs] = useState(cblogs);
 
   function addBlog(blog: Blog) {
-    setBlogs((prev) => [...prev, blog]);
+    setBlogs((prev) => [blog, ...prev]);
   }
 
   function deleteBlog(id: number) {
