@@ -1,5 +1,5 @@
 import { useBlog } from "@/hooks/useBlog";
-import Blog from "@/components/blog";
+import Blog from "@/components/Blog";
 
 export default function Home() {
   const { list } = useBlog();
