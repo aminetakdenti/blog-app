@@ -15,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 
 import Editor from "@/components/Editor";
-import { useBlog } from "@/hooks/useBlog";
+// import { useBlog } from "@/hooks/useBlog";
 import { useNavigate } from "react-router-dom";
 
 const formSchema = z.object({
@@ -29,7 +29,7 @@ const formSchema = z.object({
 
 const ProfileForm = () => {
   const navigate = useNavigate();
-  const { create } = useBlog();
+  // const { create } = useBlog();
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -41,6 +41,7 @@ const ProfileForm = () => {
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values);
     // create({ ...values });
     navigate("/");
   }
