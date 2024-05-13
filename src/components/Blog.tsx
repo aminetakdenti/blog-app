@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-import { tiptapToHtml } from "@/utils/tiptaptohtml";
+import { tiptapToHtml } from "@/tiptap/tiptaptohtml";
 
 type Props = {
   title: string;

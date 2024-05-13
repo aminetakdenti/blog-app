@@ -4,14 +4,15 @@ import {
   Bold,
   Italic,
   Strikethrough,
-  Code,
   RemoveFormatting,
   Pilcrow,
   Heading,
   List,
   ListOrdered,
-  MessageSquareQuote,
   Minus,
+  Quote,
+  Highlighter,
+  CodeSquare,
 } from "lucide-react";
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -44,11 +45,11 @@ const MenuBar = ({ editor }: { editor: Editor }) => {
         <Strikethrough />
       </Toggle>
       <Toggle
-        onClick={() => editor.chain().focus().toggleCode().run()}
-        disabled={!editor.can().chain().focus().toggleCode().run()}
+        onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+        disabled={!editor.can().chain().focus().toggleCodeBlock().run()}
         className={editor.isActive("code") ? "is-active" : ""}
       >
-        <Code />
+        <CodeSquare />
       </Toggle>
       <Toggle onClick={() => editor.chain().focus().unsetAllMarks().run()}>
         <RemoveFormatting />
@@ -81,10 +82,16 @@ const MenuBar = ({ editor }: { editor: Editor }) => {
         onClick={() => editor.chain().focus().toggleBlockquote().run()}
         className={editor.isActive("blockquote") ? "is-active" : ""}
       >
-        <MessageSquareQuote />
+        <Quote size={20} />
       </Toggle>
       <Toggle onClick={() => editor.chain().focus().setHorizontalRule().run()}>
         <Minus />
+      </Toggle>
+      <Toggle
+        onClick={() => editor.chain().focus().toggleHighlight().run()}
+        className={editor.isActive("highlight") ? "is-active" : ""}
+      >
+        <Highlighter />
       </Toggle>
     </div>
   );

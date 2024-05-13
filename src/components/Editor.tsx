@@ -1,5 +1,13 @@
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import ListItem from "@tiptap/extension-list-item";
+import OrderList from "@tiptap/extension-ordered-list";
+import BulletList from "@tiptap/extension-bullet-list";
+import QuotesBlock from "@tiptap/extension-blockquote";
+import Highlighte from "@tiptap/extension-highlight";
+// import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
+import CodeBlock from "@tiptap/extension-code-block";
+
 import MenuBar from "./MenuBar";
 
 const extensions = [
@@ -11,6 +19,33 @@ const extensions = [
       // how to add another heading style
     },
   }),
+  BulletList.configure({
+    HTMLAttributes: {
+      class: "pl-4 list-disc ",
+    },
+  }),
+  OrderList.configure({
+    HTMLAttributes: {
+      class: "pl-4 list-decimal",
+    },
+  }),
+  QuotesBlock.configure({
+    HTMLAttributes: {
+      class:
+        "pl-8 text-gray-500 relative italic before:absolute before:left-4 before:bg-gray-300 before:h-full before:w-1",
+    },
+  }),
+  Highlighte.configure({
+    HTMLAttributes: {
+      class: "bg-yellow-100 p-[1.5px] border border-yellow-200 rounded-md",
+    },
+  }),
+  CodeBlock.configure({
+    HTMLAttributes: {
+      class: "rounded-lg p-4 my-3 bg-gray-100 dark:bg-gray-800",
+    },
+  }),
+  ListItem,
 ];
 
 type Props = {
@@ -22,6 +57,7 @@ const Editor = ({ content, setContent }: Props) => {
   const editor = useEditor({
     extensions,
     content,
+
     editorProps: {
       attributes: {
         class: "p-4 rounded-lg  dark:text-white border min-h-[400px]",
@@ -29,8 +65,6 @@ const Editor = ({ content, setContent }: Props) => {
     },
     onUpdate({ editor }) {
       setContent(editor.getHTML());
-      console.log(editor.getJSON());
-      console.log(editor.getText());
     },
   });
 
