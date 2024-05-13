@@ -29,6 +29,8 @@ const Editor = ({ content, setContent }: Props) => {
     },
     onUpdate({ editor }) {
       setContent(editor.getHTML());
+      console.log(editor.getJSON());
+      console.log(editor.getText());
     },
   });
 

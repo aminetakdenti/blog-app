@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
-import sanitizeHtml from "sanitize-html";
+
+import { tiptapToHtml } from "@/utils/tiptaptohtml";
 
 type Props = {
   title: string;
@@ -14,7 +15,7 @@ export default function Blog({ title, content }: Props) {
       const lastChild = blogRef.current.lastChild;
       if (lastChild instanceof HTMLElement && lastChild.tagName !== "P") {
         const p = document.createElement("p");
-        const htmlContent = sanitizeHtml(content);
+        const htmlContent = tiptapToHtml(content);
         console.log(htmlContent);
         p.innerHTML = htmlContent;
         blogRef.current.appendChild(p);
