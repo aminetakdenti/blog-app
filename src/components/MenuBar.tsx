@@ -13,6 +13,7 @@ import {
   Quote,
   Highlighter,
   CodeSquare,
+  Underline,
 } from "lucide-react";
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -29,6 +30,13 @@ const MenuBar = ({ editor }: { editor: Editor }) => {
         className={editor.isActive("bold") ? "is-active" : ""}
       >
         <Bold />
+      </Toggle>
+      <Toggle
+        onClick={() => editor.chain().focus().toggleUnderline().run()}
+        disabled={!editor.can().chain().focus().toggleUnderline().run()}
+        className={editor.isActive("underline") ? "is-active" : ""}
+      >
+        <Underline />
       </Toggle>
       <Toggle
         onClick={() => editor.chain().focus().toggleItalic().run()}
@@ -51,7 +59,10 @@ const MenuBar = ({ editor }: { editor: Editor }) => {
       >
         <CodeSquare />
       </Toggle>
-      <Toggle onClick={() => editor.chain().focus().unsetAllMarks().run()}>
+      <Toggle
+        onClick={() => editor.chain().focus().unsetAllMarks().run()}
+        disabled={!editor.can().chain().focus().unsetAllMarks().run()}
+      >
         <RemoveFormatting />
       </Toggle>
       <Toggle

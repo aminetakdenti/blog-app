@@ -5,7 +5,7 @@ import OrderList from "@tiptap/extension-ordered-list";
 import BulletList from "@tiptap/extension-bullet-list";
 import QuotesBlock from "@tiptap/extension-blockquote";
 import Highlighte from "@tiptap/extension-highlight";
-// import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
+import Underline from "@tiptap/extension-underline";
 import CodeBlock from "@tiptap/extension-code-block";
 
 import MenuBar from "./MenuBar";
@@ -43,6 +43,11 @@ const extensions = [
   CodeBlock.configure({
     HTMLAttributes: {
       class: "rounded-lg p-4 my-3 bg-gray-100 dark:bg-gray-800",
+    },
+  }),
+  Underline.configure({
+    HTMLAttributes: {
+      class: "underline",
     },
   }),
   ListItem,
