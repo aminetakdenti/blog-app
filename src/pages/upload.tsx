@@ -29,8 +29,8 @@ const formSchema = z.object({
 });
 
 const ProfileForm = () => {
-  const navigate = useNavigate();
   const user = useAuth();
+  const navigate = useNavigate();
   const { create } = useBlog();
 
   const form = useForm<z.infer<typeof formSchema>>({

@@ -16,21 +16,23 @@ export default function navbar() {
         <Link to="/">
           <h1 className="flex-1 font-logo jacquard-24-regular">My Blog</h1>
         </Link>
-        <SignedIn>
-          <div className="flex gap-4">
-            <Link to="/upload">
-              <Button variant="outline">
-                <PencilLine className="mr-2 h-4 w-4" />
-                write
-              </Button>
-            </Link>
-            <UserButton />
-            <ModeToggle />
-          </div>
-        </SignedIn>
-        <SignedOut>
-          <SignInButton />
-        </SignedOut>
+        <div className="flex gap-4">
+          <SignedIn>
+            <div className="flex gap-4">
+              <Link to="/upload">
+                <Button variant="outline">
+                  <PencilLine className="mr-2 h-4 w-4" />
+                  write
+                </Button>
+              </Link>
+              <UserButton />
+            </div>
+          </SignedIn>
+          <SignedOut>
+            <SignInButton />
+          </SignedOut>
+          <ModeToggle />
+        </div>
       </div>
     </nav>
   );

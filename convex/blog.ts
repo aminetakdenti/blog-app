@@ -12,13 +12,16 @@ export const create = mutation({
   args: {
     title: v.string(),
     content: v.string(),
-    userId: v.string(),
   },
-  handler: async (ctx, { title, content, userId }) => {
+  handler: async (ctx, { title, content }) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (identity === null) {
+      throw new Error("Unauthenticated call to mutation");
+    }
     return await ctx.db.insert("blogs", {
       title,
       content,
-      userId,
+      userId: identity.tokenIdentifier,
     });
   },
 });

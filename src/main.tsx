@@ -5,7 +5,7 @@ import App from "./App.tsx";
 import "./index.css";
 import { ConvexReactClient } from "convex/react";
 import { ClerkProvider, useAuth } from "@clerk/clerk-react";
-import { ConvexProviderWithAuth } from "convex/react";
+import { ConvexProviderWithClerk } from "convex/react-clerk";
 
 const convex = new ConvexReactClient(import.meta.env.VITE_CONVEX_URL as string);
 
@@ -19,11 +19,11 @@ if (!PUBLISHABLE_KEY) {
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
-      <ConvexProviderWithAuth client={convex} useAuth={useAuth}>
+      <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
         <BrowserRouter>
           <App />
         </BrowserRouter>
-      </ConvexProviderWithAuth>
+      </ConvexProviderWithClerk>
     </ClerkProvider>
   </React.StrictMode>
 );
