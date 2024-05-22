@@ -1,12 +1,12 @@
 import { EditorContent, useEditor } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
+import QuotesBlock from "@tiptap/extension-blockquote";
+import BulletList from "@tiptap/extension-bullet-list";
+import CodeBlock from "@tiptap/extension-code-block";
+import Highlighte from "@tiptap/extension-highlight";
 import ListItem from "@tiptap/extension-list-item";
 import OrderList from "@tiptap/extension-ordered-list";
-import BulletList from "@tiptap/extension-bullet-list";
-import QuotesBlock from "@tiptap/extension-blockquote";
-import Highlighte from "@tiptap/extension-highlight";
 import Underline from "@tiptap/extension-underline";
-import CodeBlock from "@tiptap/extension-code-block";
+import StarterKit from "@tiptap/starter-kit";
 
 import MenuBar from "./MenuBar";
 
@@ -14,7 +14,7 @@ const extensions = [
   StarterKit.configure({
     heading: {
       HTMLAttributes: {
-        class: "text-3xl font-bold text-gray-800",
+        class: "text-3xl font-bold  dark:text-gray-100 text-gray-800",
       },
       // how to add another heading style
     },
@@ -75,6 +75,7 @@ const Editor = ({ content, setContent }: Props) => {
 
   return (
     <div className="flex flex-col gap-3">
+      {/* biome-ignore lint/style/noNonNullAssertion: <explanation> */}
       <MenuBar editor={editor!} />
       <EditorContent editor={editor} />
     </div>

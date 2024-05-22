@@ -15,8 +15,9 @@ import {
 import { Input } from "@/components/ui/input";
 
 import Editor from "@/components/Editor";
-// import { useBlog } from "@/hooks/useBlog";
+import { useBlog } from "@/hooks/useBlog";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@clerk/clerk-react";
 
 const formSchema = z.object({
   title: z.string().min(2, {
@@ -29,8 +30,9 @@ const formSchema = z.object({
 
 const ProfileForm = () => {
   const navigate = useNavigate();
-  // const { create } = useBlog();
-  // 1. Define your form.
+  const user = useAuth();
+  const { create } = useBlog();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -41,10 +43,15 @@ const ProfileForm = () => {
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    // create({ ...values });
+    if (!user.userId) {
+      throw new Error("User is not authenticated.");
+    }
+
+    create({ ...values, userId: user.userId });
     navigate("/");
   }
+
+  if (!user) return null;
 
   return (
     <Form {...form}>

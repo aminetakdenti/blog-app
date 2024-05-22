@@ -5,5 +5,6 @@ export default defineSchema({
   blogs: defineTable({
     title: v.string(),
     content: v.string(),
+    userId: v.string(),
   }),
 });

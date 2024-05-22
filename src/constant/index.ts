@@ -1,6 +1,6 @@
 export const blogs = [
   {
-    id: 1,
+  id: 1,
     title: "Mastering the Art of JavaScript Closures",
     content:
       "In this blog post, we'll delve into the world of JavaScript closures and explore how they can be used to create private variables, implement modules, and achieve powerful functional programming patterns. We'll cover the concept of scope chains, function expressions, and how closures help us manage variable lifespans. By the end, you'll have a solid understanding of closures and their practical applications in your JavaScript code.",
