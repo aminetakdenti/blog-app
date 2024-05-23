@@ -47,7 +47,7 @@ const ProfileForm = () => {
       throw new Error("User is not authenticated.");
     }
 
-    create({ ...values, userId: user.userId });
+    create({ ...values });
     navigate("/");
   }
 

@@ -1,5 +1,6 @@
 import { useBlog } from "@/hooks/useBlog";
 import Blog from "@/components/Blog";
+import Convex from "@/pages/convex";
 
 export default function Home() {
   const { list } = useBlog();
@@ -9,6 +10,7 @@ export default function Home() {
         // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
         <Blog key={index} title={blog.title} content={blog.content} />
       ))}
+      <Convex />
     </div>
   );
 }
