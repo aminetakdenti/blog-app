@@ -1,31 +1,54 @@
 import { useEffect, useRef } from "react";
-
 import { tiptapToHtml } from "@/tiptap/tiptaptohtml";
+import { Link } from "react-router-dom";
 
 type Props = {
   title: string;
   content: string;
+  name: string;
+  imageUrl: string;
+  userId: string;
+  _id: string;
 };
 
-export default function Blog({ title, content }: Props) {
+export default function Blog({
+  title,
+  content,
+  imageUrl,
+  name,
+  _id: blog,
+}: Props) {
   const blogRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (blogRef.current !== null) {
-      const lastChild = blogRef.current.lastChild;
-      if (lastChild instanceof HTMLElement && lastChild.tagName !== "P") {
-        const p = document.createElement("p");
-        const htmlContent = tiptapToHtml(content);
-        console.log(htmlContent);
-        p.innerHTML = htmlContent;
-        blogRef.current.appendChild(p);
-      }
+      const htmlContent = tiptapToHtml(content);
+      blogRef.current.innerHTML = htmlContent;
     }
-  }, [content]); // Run only once when the component mounts
+  }, [content]); // Update when content changes
 
   return (
-    <div ref={blogRef} className="py-4 space-y-3">
-      <h2 className="text-3xl font-bold">{title}</h2>
+    <div>
+      <Link to={`/blog/${blog}`}>
+        <div className="flex justify-between">
+          <div className="space-y-3">
+            <div className="flex items-center gap-3">
+              <div className="size-8">
+                <img src={imageUrl || ""} alt="user avatar" />
+              </div>
+              <h1>{name}</h1>
+            </div>
+            <div className="space-y-1 pl-2 dark:text-gray-300 flex-1">
+              <h3 className="text-xl font-bold">{title}</h3>
+              {/* biome-ignore lint/style/useSelfClosingElements: <explanation> */}
+              <p ref={blogRef} className="content"></p>
+            </div>
+          </div>
+          <div className="h-28 w-36 bg-red-600">
+            <img src="" alt="" />
+          </div>
+        </div>
+      </Link>
     </div>
   );
 }
