@@ -1,14 +1,14 @@
 import { useEffect, useRef } from "react";
 import { tiptapToHtml } from "@/tiptap/tiptaptohtml";
 import { Link } from "react-router-dom";
+import type { Id } from "convex/_generated/dataModel";
 
 type Props = {
   title: string;
   content: string;
   name: string;
   imageUrl: string;
-  userId: string;
-  _id: string;
+  id: Id<"blogs">;
 };
 
 export default function Blog({
@@ -16,7 +16,7 @@ export default function Blog({
   content,
   imageUrl,
   name,
-  _id: blog,
+  id: blog,
 }: Props) {
   const blogRef = useRef<HTMLDivElement | null>(null);
 

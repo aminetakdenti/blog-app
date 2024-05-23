@@ -7,7 +7,16 @@ export default function Home() {
   return (
     <div className="flex flex-col gap-4 divide-y">
       {list?.map((blog) => {
-        return <Blog key={blog._id} {...blog} />;
+        return (
+          <Blog
+            title={blog.title}
+            content={blog.content}
+            name={blog.name || ""}
+            id={blog._id}
+            imageUrl={blog.imageUrl || ""}
+            key={blog._id as string}
+          />
+        );
       })}
       <Convex />
     </div>
