@@ -5,7 +5,7 @@ import type { Id } from "./_generated/dataModel";
 export const list = query({
   args: {},
   handler: async (ctx) => {
-    const blogs = await ctx.db.query("blogs").collect();
+    const blogs = await ctx.db.query("blogs").order("desc").collect();
     return Promise.all(
       blogs.map(async (blog) => {
         // For each message in this channel, fetch the `User` who wrote it and

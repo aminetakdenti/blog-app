@@ -20,3 +20,9 @@ export function tiptapToHtml(content: string): string {
   });
   return htmlContent;
 }
+
+export function extractTextFromHtml(html: string): string {
+  const div = document.createElement("div");
+  div.innerHTML = html;
+  return div.innerText;
+}

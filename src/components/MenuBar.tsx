@@ -1,4 +1,4 @@
-import { type Editor } from "@tiptap/react";
+import type { Editor } from "@tiptap/react";
 import { Toggle } from "@/components/ui/toggle";
 import {
   Bold,
@@ -23,7 +23,7 @@ const MenuBar = ({ editor }: { editor: Editor }) => {
   }
 
   return (
-    <div className="flex flex-wrap divide-x border w-fit rounded-lg">
+    <div className="flex flex-wrap divide-x border  w-fit rounded-lg">
       <Toggle
         onClick={() => editor.chain().focus().toggleBold().run()}
         disabled={!editor.can().chain().focus().toggleBold().run()}

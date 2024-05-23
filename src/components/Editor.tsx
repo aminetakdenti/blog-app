@@ -65,7 +65,8 @@ const Editor = ({ content, setContent }: Props) => {
 
     editorProps: {
       attributes: {
-        class: "p-4 rounded-lg  dark:text-white border min-h-[400px]",
+        class:
+          "p-4 rounded-lg  dark:text-white border dark:border-slate-800 min-h-[400px]",
       },
     },
     onUpdate({ editor }) {
@@ -74,7 +75,7 @@ const Editor = ({ content, setContent }: Props) => {
   });
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col gap-3  ">
       {/* biome-ignore lint/style/noNonNullAssertion: <explanation> */}
       <MenuBar editor={editor!} />
       <EditorContent editor={editor} />

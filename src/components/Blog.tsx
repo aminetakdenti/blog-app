@@ -1,5 +1,4 @@
-import { useEffect, useRef } from "react";
-import { tiptapToHtml } from "@/tiptap/tiptaptohtml";
+import { extractTextFromHtml } from "@/tiptap/tiptaptohtml";
 import { Link } from "react-router-dom";
 import type { Id } from "convex/_generated/dataModel";
 
@@ -18,17 +17,17 @@ export default function Blog({
   name,
   id: blog,
 }: Props) {
-  const blogRef = useRef<HTMLDivElement | null>(null);
+  // const blogRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    if (blogRef.current !== null) {
-      const htmlContent = tiptapToHtml(content);
-      blogRef.current.innerHTML = htmlContent;
-    }
-  }, [content]); // Update when content changes
+  // useEffect(() => {
+  //   if (blogRef.current !== null) {
+  //     const htmlContent = tiptapToHtml(content);
+  //     blogRef.current.innerHTML = htmlContent;
+  //   }
+  // }, [content]); // Update when content changes
 
   return (
-    <div>
+    <div className="pt-5">
       <Link to={`/blog/${blog}`}>
         <div className="flex justify-between">
           <div className="space-y-3">
@@ -40,8 +39,7 @@ export default function Blog({
             </div>
             <div className="space-y-1 pl-2 dark:text-gray-300 flex-1">
               <h3 className="text-xl font-bold">{title}</h3>
-              {/* biome-ignore lint/style/useSelfClosingElements: <explanation> */}
-              <p ref={blogRef} className="content"></p>
+              <p className="content">{extractTextFromHtml(content)}</p>
             </div>
           </div>
           <div className="h-28 w-36 bg-red-600">
