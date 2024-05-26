@@ -2,6 +2,7 @@ import { Routes as Router, Route } from "react-router-dom";
 import Layout from "@/pages/_layout";
 import Home from "@/pages/home";
 import Upload from "@/pages/upload";
+import BlogPage from "@/pages/blog";
 import { SignedIn } from "@clerk/clerk-react";
 
 function Routes() {
@@ -17,6 +18,7 @@ function Routes() {
             </SignedIn>
           }
         />
+        <Route path="/blog/:id" element={<BlogPage/>} />
       </Route>
     </Router>
   );

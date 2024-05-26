@@ -40,6 +40,7 @@ export default function Blog({
             <div className="space-y-1 pl-2 dark:text-gray-300 flex-1">
               <h3 className="text-xl font-bold">{title}</h3>
               <p className="content">{extractTextFromHtml(content)}</p>
+              {/* <div dangerouslySetInnerHTML={{ __html: content }} /> */}
             </div>
           </div>
           <div className="h-28 w-36 bg-red-600">
