@@ -1,13 +1,14 @@
-import { useParams } from "react-router-dom";
-import { api } from "../../convex/_generated/api";
+import BlogUserLink from "@/components/BlogUserLink";
 import { useQuery } from "convex/react";
 import { useEffect, useRef } from "react";
-import BlogUserLink from "@/components/BlogUserLink";
+import { useParams } from "react-router-dom";
+import { api } from "../../convex/_generated/api";
+import type { Id } from "../../convex/_generated/dataModel";
 
 function blog() {
 	const { id } = useParams();
 
-	const blog = useQuery(api.blog.get, { id });
+	const blog = useQuery(api.blog.get, { id: id as Id<"blogs"> });
 
 	const ref = useRef<HTMLDivElement>(null);
 
