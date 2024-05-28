@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
+import ConfirmDialog from "@/components/ConfirmDialog";
 import {
   Form,
   FormControl,
@@ -47,47 +48,49 @@ const ProfileForm = () => {
       throw new Error("User is not authenticated.");
     }
 
-    create({ ...values });
-    navigate("/");
+    // create({ ...values });
+    // navigate("/");
   }
 
   if (!user) return null;
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="title"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Title</FormLabel>
-              <FormControl>
-                <Input placeholder="title" {...field} />
-              </FormControl>
-              <FormDescription>
-                This is your public display blog title.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="content"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Blog content</FormLabel>
-              <FormControl>
-                <Editor content={field.value} setContent={field.onChange} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">Submit</Button>
-      </form>
-    </Form>
+    <div>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <FormField
+            control={form.control}
+            name="title"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Title</FormLabel>
+                <FormControl>
+                  <Input placeholder="title" {...field} />
+                </FormControl>
+                <FormDescription>
+                  This is your public display blog title.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="content"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Blog content</FormLabel>
+                <FormControl>
+                  <Editor content={field.value} setContent={field.onChange} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <ConfirmDialog />
+        </form>
+      </Form>
+    </div>
   );
 };
 
