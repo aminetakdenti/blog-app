@@ -66,16 +66,22 @@ const ProfileForm = () => {
     if (files && files.length > 0) {
       const file = files[0];
 
-      if (file.size > FILE_MAX_SIZE) {
-        form.setError("file", { message: "the size of the file is too big" });
+      if (!file.type.startsWith("image/")) {
+        form.setError("file", { message: "Only image files are allowed." });
         form.setValue("file", "");
-      } else {
-        console.log("here2");
-        form.setValue("file", file.name, {
-          shouldValidate: true,
-        });
-        setFile(Array.from(files));
+        return;
       }
+
+      if (file.size > FILE_MAX_SIZE) {
+        form.setError("file", { message: "The size of the file is too big" });
+        form.setValue("file", "");
+        return;
+      }
+
+      form.setValue("file", file.name, {
+        shouldValidate: true,
+      });
+      setFile(Array.from(files));
     }
   };
 
@@ -131,7 +137,11 @@ const ProfileForm = () => {
             <FormItem>
               <FormLabel>Picture</FormLabel>
               <FormControl>
-                <Input type="file" onChange={handleFileChange} />
+                <Input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                />
               </FormControl>
               <FormDescription>
                 This is your hero image for your blog.
