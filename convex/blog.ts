@@ -1,6 +1,7 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 import type { Id } from "./_generated/dataModel";
+import { store } from "./user";
 
 export const list = query({
   args: {},
@@ -79,21 +80,30 @@ export const create = mutation({
   },
   handler: async (ctx, { title, content, imageId, categories }) => {
     const identity = await ctx.auth.getUserIdentity();
+    console.log(identity);
     if (!identity) {
       throw new Error("Unauthenticated call to mutation");
     }
 
-    const user = await ctx.db
+    let user = await ctx.db
       .query("users")
       .withIndex("by_token", (q) =>
         q.eq("tokenIdentifier", identity.tokenIdentifier)
       )
       .unique();
     if (!user) {
-      throw new Error("Unauthenticated call to mutation");
+      await store(ctx, identity);
+      // throw new Error("Unauthenticated call to mutation");
+      user = await ctx.db
+        .query("users")
+        .withIndex("by_token", (q) =>
+          q.eq("tokenIdentifier", identity.tokenIdentifier)
+        )
+        .unique();
+      if (!user) throw new Error("Server Error");
     }
 
-    await ctx.db.insert("blogs", {
+    return await ctx.db.insert("blogs", {
       title,
       content,
       userId: user._id,

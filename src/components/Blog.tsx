@@ -39,7 +39,7 @@ export default function Blog({
               </p>
             </div>
           </div>
-          <div className="h-28 w-36 ">
+          <div className="h-28 w-36 overflow-hidden">
             <img src={blogImage || ""} alt={title} />
           </div>
         </div>

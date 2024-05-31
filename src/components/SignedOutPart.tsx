@@ -1,9 +1,10 @@
-import { SignInButton, SignedOut } from "@clerk/clerk-react";
+import { SignInButton } from "@clerk/clerk-react";
+import { Unauthenticated } from "convex/react";
 
 export default function SignedOutPart() {
   return (
-    <SignedOut>
+    <Unauthenticated>
       <SignInButton />
-    </SignedOut>
+    </Unauthenticated>
   );
 }

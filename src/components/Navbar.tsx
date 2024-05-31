@@ -5,7 +5,7 @@ import SignedOutPart from "./SignedOutPart";
 
 export default function navbar() {
   return (
-    <nav className="sticky container backdrop-blur-2xl top-0 left-0 right-0 z-50 shadow shadow-slate-800">
+    <nav className="sticky container backdrop-blur-2xl top-0 left-0 right-0 z-50  shadow shadow-slate-800">
       <div className="flex items-center w-full justify-between ">
         <Link to="/">
           <h1 className="flex-1 font-logo jacquard-24-regular">My Blog</h1>

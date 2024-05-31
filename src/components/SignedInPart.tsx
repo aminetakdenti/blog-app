@@ -1,11 +1,12 @@
-import { SignedIn, UserButton } from "@clerk/clerk-react";
+import { UserButton } from "@clerk/clerk-react";
 import { Link } from "react-router-dom";
 import { Button } from "./ui/button";
 import { PencilLine } from "lucide-react";
+import { Authenticated } from "convex/react";
 
 export default function SignedPart() {
   return (
-    <SignedIn>
+    <Authenticated>
       <div className="flex flex-row gap-4">
         <Link to="/upload">
           <Button
@@ -25,6 +26,6 @@ export default function SignedPart() {
         </Link>
         <UserButton />
       </div>
-    </SignedIn>
+    </Authenticated>
   );
 }
