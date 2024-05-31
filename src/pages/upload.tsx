@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { v4 as uuid4 } from "uuid";
+import { useForm, useFormState } from "react-hook-form";
+import { v4 as uuid } from "uuid";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -16,14 +16,17 @@ import {
 import { Input } from "@/components/ui/input";
 
 import Editor from "@/components/Editor";
-import { useBlog } from "@/hooks/useBlog";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@clerk/clerk-react";
 import DownshiftInput from "@/components/DownshiftInput";
-import { useState } from "react";
+import { type ChangeEvent, useState } from "react";
 import { Badge } from "@/components/ui/badge";
-import Dropezone from "@/components/Dropezone";
-import type { UploadFileResponse } from "@xixixao/uploadstuff";
+import { useMutation } from "convex/react";
+import { useUploadFiles } from "@xixixao/uploadstuff/react";
+import { api } from "../../convex/_generated/api";
+import { LoaderCircle } from "lucide-react";
+
+const FILE_MAX_SIZE = 1024 * 1024 * 1.5; // 1.5MB
 
 const formSchema = z.object({
   title: z.string().min(2, {
@@ -32,56 +35,78 @@ const formSchema = z.object({
   content: z.string().min(12, {
     message: "Blog content must be at least 12 characters.",
   }),
+  file: z.string().nonempty("Image is required."),
 });
 
 const ProfileForm = () => {
-  const [categories, setCategories] = useState<string[]>([]);
-  const [image, setImage] = useState<UploadFileResponse | null>(null);
+  const generateUploadUrl = useMutation(api.files.generateUploadUrl);
+  const create = useMutation(api.blog.create);
+  const { startUpload } = useUploadFiles(generateUploadUrl);
 
-  const user = useAuth();
+  const [categories, setCategories] = useState<string[]>([]);
+  const [file, setFile] = useState<File[] | null>(null);
+
+  const { isLoaded, userId } = useAuth();
+
   const navigate = useNavigate();
-  const { create } = useBlog();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
       content: "",
-      // imageUrl: "",
+      file: "",
     },
   });
 
-  // 2. Define a submit handler.
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    if (!user.userId) {
+  const { isSubmitting } = useFormState({ control: form.control });
+
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      const file = files[0];
+
+      if (file.size > FILE_MAX_SIZE) {
+        form.setError("file", { message: "the size of the file is too big" });
+        form.setValue("file", "");
+      } else {
+        console.log("here2");
+        form.setValue("file", file.name, {
+          shouldValidate: true,
+        });
+        setFile(Array.from(files));
+      }
+    }
+  };
+
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    if (!userId) {
       throw new Error("User is not authenticated.");
     }
 
-    if (!image) {
+    if (!file) {
       throw new Error("Image is required.");
     }
 
-    const response = image.response as { storageId: string };
+    const image = await startUpload(file);
 
-    create({
+    const response = image[0].response as { storageId: string };
+
+    await create({
       title: values.title,
       content: values.content,
       categories,
       imageId: response.storageId,
     });
 
-    // create({ ...values });
     navigate("/");
-  }
+  };
 
-  if (!user) return null;
+  if (!isLoaded) return null;
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8 w-full "
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
         <FormField
           control={form.control}
           name="title"
@@ -99,14 +124,14 @@ const ProfileForm = () => {
           )}
         />
 
-        {/* <FormField
+        <FormField
           control={form.control}
-          name="imageUrl"
-          render={({ field }) => (
+          name="file"
+          render={() => (
             <FormItem>
               <FormLabel>Picture</FormLabel>
               <FormControl>
-                <Input type="file" {...field} />
+                <Input type="file" onChange={handleFileChange} />
               </FormControl>
               <FormDescription>
                 This is your hero image for your blog.
@@ -114,9 +139,7 @@ const ProfileForm = () => {
               <FormMessage />
             </FormItem>
           )}
-        /> */}
-
-        <Dropezone setImage={setImage} />
+        />
 
         <FormField
           name="categories"
@@ -134,8 +157,8 @@ const ProfileForm = () => {
 
         {categories.length > 0 && (
           <div className="flex gap-2 flex-wrap overflow-hidden">
-            {categories?.map((category) => (
-              <Badge key={uuid4()} className="text-sm">
+            {categories.map((category) => (
+              <Badge key={uuid()} className="text-sm">
                 {category}
               </Badge>
             ))}
@@ -155,8 +178,13 @@ const ProfileForm = () => {
             </FormItem>
           )}
         />
-        <Button className="w-full" type="submit">
-          Submit
+
+        <Button className="w-full" type="submit" disabled={isSubmitting}>
+          {isSubmitting ? (
+            <LoaderCircle className="rotate animate-spin" />
+          ) : (
+            "Submit"
+          )}
         </Button>
       </form>
     </Form>

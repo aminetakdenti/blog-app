@@ -27,15 +27,23 @@ function Dropezone({ setImage }: Props) {
   const generateUploadUrl = useMutation(api.files.generateUploadUrl);
   const saveAfterUpload = async (uploaded: UploadFileResponse[]) => {
     setImage(uploaded[0]);
-    console.log(uploaded);
   };
 
   return (
     <UploadDropzone
       className={() =>
-        "border-2 border-dashed border-gray-300 rounded-lg p-4 w-full"
+        "border-2 border-dashed border-gray-300 rounded-lg p-4 w-full text-center "
       }
       uploadUrl={generateUploadUrl}
+      uploadImmediately={true}
+      multiple={false}
+      content={({ progress, isDragActive }) => {
+        if (isDragActive) return "Drop your files here";
+
+        if (progress === 100) return "File uploaded successfully!";
+
+        return "Drop your files here or click to upload.";
+      }}
       fileTypes={{
         "application/pdf": [".pdf"],
         "image/*": [".png", ".gif", ".jpeg", ".jpg"],
