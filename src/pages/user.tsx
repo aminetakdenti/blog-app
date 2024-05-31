@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
 
-function user() {
-	const { id } = useParams();
+function User() {
+  const { id } = useParams();
 
-	return <div>user{id}</div>;
+  return <div>user{id}</div>;
 }
 
-export default user;
+export default User;
