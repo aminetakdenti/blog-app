@@ -1,89 +1,52 @@
-import { Image } from "lucide-react";
-import { useCallback, useState } from "react";
-import { useDropzone } from "react-dropzone";
+import { useMutation } from "convex/react";
+import {
+  UploadDropzone,
+  type UploadFileResponse,
+} from "@xixixao/uploadstuff/react";
+import "@xixixao/uploadstuff/react/styles.css";
+import { api } from "../../convex/_generated/api";
 
-function Dropzone() {
-  const [file, setFile] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
-  const maxSize = 1048576; // 1 MB in bytes
+// name
+// :
+// "Screenshot from 2024-05-15 08-39-27.png"
+// response
+// :
+// {storageId: 'kg20aebgjztk3nk3nxk87mwksd6t5z3r'}
+// size
+// :
+// 124492
+// type
+// :
+// "image/png"
 
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    const imageFile = acceptedFiles[0];
-    if (imageFile?.type.startsWith("image/")) {
-      setFile(imageFile);
-      const filePreview = URL.createObjectURL(imageFile);
-      setPreview(filePreview);
-    }
-  }, []);
+type Props = {
+  setImage: (image: UploadFileResponse) => void;
+};
 
-  const { getRootProps, getInputProps, isDragActive, fileRejections } =
-    useDropzone({
-      onDrop,
-      accept: {
-        "image/*": [".jpg", ".jpeg", ".png"],
-      },
-      maxSize,
-    });
-
-  const getErrorMessage = (rejections: string | unknown[]) => {
-    if (rejections.length > 0) {
-      const { errors } = rejections[0];
-      for (const error of errors) {
-        if (error.code === "file-too-large") {
-          return "File size exceeds 1 MB.";
-        }
-        if (error.code === "file-invalid-type") {
-          return "Invalid file type.";
-        }
-      }
-    }
-    return null;
+function Dropezone({ setImage }: Props) {
+  const generateUploadUrl = useMutation(api.files.generateUploadUrl);
+  const saveAfterUpload = async (uploaded: UploadFileResponse[]) => {
+    setImage(uploaded[0]);
+    console.log(uploaded);
   };
 
-  const errorMessage = getErrorMessage(fileRejections);
-
   return (
-    <div>
-      <div
-        {...getRootProps()}
-        className={` h-96 border-dashed border-2  p-4 rounded-md overflow-hidden ${isDragActive ? "border-black" : "border-gray-300"} `}
-      >
-        <input {...getInputProps()} className="h-0" type="file" />
-        {file ? (
-          <div className="flex flex-col text-center gap-2 h-full">
-            <div className="relative h-5/6 rounded-lg overflow-hidden">
-              <img
-                src={preview ?? ""}
-                alt={file.name}
-                className="mx-auto h-full w-full object-contain  "
-              />
-            </div>
-            <p className="h-1/6 text-black">
-              {file.name} - {file.size} bytes
-            </p>
-          </div>
-        ) : (
-          <div className="h-full flex flex-col">
-            <div className="h-5/6 flex justify-center items-center">
-              <Image strokeWidth={1} size={150} />
-            </div>
-            <div className="h-1/6">
-              {isDragActive ? (
-                <p className="text-center ">Drop the image here ...</p>
-              ) : (
-                <p className="text-center ">
-                  Drag 'n' drop you're image here, or click to select image
-                </p>
-              )}
-              {errorMessage && (
-                <p className="text-center text-red-500">{errorMessage}</p>
-              )}
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
+    <UploadDropzone
+      className={() =>
+        "border-2 border-dashed border-gray-300 rounded-lg p-4 w-full"
+      }
+      uploadUrl={generateUploadUrl}
+      fileTypes={{
+        "application/pdf": [".pdf"],
+        "image/*": [".png", ".gif", ".jpeg", ".jpg"],
+      }}
+      onUploadComplete={saveAfterUpload}
+      onUploadError={(error: unknown) => {
+        // Do something with the error.
+        alert(`ERROR! ${error}`);
+      }}
+    />
   );
 }
 
-export default Dropzone;
+export default Dropezone;

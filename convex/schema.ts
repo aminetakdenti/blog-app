@@ -12,5 +12,7 @@ export default defineSchema({
     title: v.string(),
     content: v.string(),
     userId: v.string(),
+    imageId: v.string(),
+    categories: v.array(v.string()),
   }),
 });

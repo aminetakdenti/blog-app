@@ -12,14 +12,24 @@ import {
 import { Badge } from "@/components/ui/badge";
 import Dropzone from "@/components/Dropezone";
 import DownshiftInput from "./DownshiftInput";
-import { useState } from "react";
 import { v4 as uuid4 } from "uuid";
 
-function ConfirmDialog() {
-  const [categories, setCategories] = useState<string[]>([]);
+type Props = {
+  categories: string[];
+  setCategories: React.Dispatch<React.SetStateAction<string[]>>;
+  heroImage: string;
+  setHeroImage: React.Dispatch<React.SetStateAction<string>>;
+};
 
+function ConfirmDialog({
+  categories,
+  setCategories,
+  heroImage,
+  setHeroImage,
+}: Props) {
   return (
     <Dialog>
+      categories
       <DialogTrigger asChild>
         <Button className="w-full">Done</Button>
       </DialogTrigger>
@@ -32,13 +42,13 @@ function ConfirmDialog() {
         </DialogHeader>
         <div className="flex flex-col justify-start md:flex-row md:space-x-4 md:space-y-0 space-y-6 ">
           <div className="flex-1">
-            <Dropzone />
+            <Dropzone heroImage={heroImage} setHeroImage={setHeroImage} />
           </div>
           <div className="flex-1 ">
             <div className="flex flex-col gap-5">
-              <DownshiftInput setCategories={setCategories} />
+              <DownshiftInput />
               <div className="flex gap-2 flex-wrap overflow-hidden">
-                {categories.map((category) => (
+                {categories?.map((category) => (
                   <Badge key={uuid4()} className="text-sm">
                     {category}
                   </Badge>

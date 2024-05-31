@@ -37,7 +37,7 @@ function DownshiftInput({ setCategories }: Props) {
       }) => (
         <div>
           <div
-            className="w-full"
+            className="w-ful"
             {...getRootProps({}, { suppressRefError: true })}
           >
             <Input

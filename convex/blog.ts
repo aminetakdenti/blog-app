@@ -11,8 +11,10 @@ export const list = query({
         // For each message in this channel, fetch the `User` who wrote it and
         // insert their name into the `author` field.
         const user = await ctx.db.get(blog.userId as Id<"users">);
+        const image = await ctx.storage.getUrl(blog.imageId);
         return {
           ...user,
+          blogImage: image,
           ...blog,
         };
       })
@@ -33,9 +35,11 @@ export const get = query({
     }
 
     const user = await ctx.db.get(blog.userId as Id<"users">);
+    const blogImage = await ctx.storage.getUrl(blog.imageId);
 
     return {
       ...user,
+      blogImage,
       ...blog,
     };
   },
@@ -70,8 +74,10 @@ export const create = mutation({
   args: {
     title: v.string(),
     content: v.string(),
+    imageId: v.string(),
+    categories: v.array(v.string()),
   },
-  handler: async (ctx, { title, content }) => {
+  handler: async (ctx, { title, content, imageId, categories }) => {
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) {
       throw new Error("Unauthenticated call to mutation");
@@ -91,6 +97,8 @@ export const create = mutation({
       title,
       content,
       userId: user._id,
+      imageId,
+      categories,
     });
   },
 });
