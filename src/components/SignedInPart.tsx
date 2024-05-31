@@ -6,11 +6,21 @@ import { PencilLine } from "lucide-react";
 export default function SignedPart() {
   return (
     <SignedIn>
-      <div className="flex gap-4">
+      <div className="flex flex-row gap-4">
         <Link to="/upload">
-          <Button variant="outline">
-            <PencilLine className="mr-2 h-4 w-4" />
-            write
+          <Button
+            variant="outline"
+            className="hidden md:flex items-center justify-center gap-2"
+          >
+            <PencilLine className="h-4 w-4" />
+            <p className="hidden md:block">write</p>
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            className="flex items-center justify-center md:hidden"
+          >
+            <PencilLine className="h-4 w-4" />
           </Button>
         </Link>
         <UserButton />
