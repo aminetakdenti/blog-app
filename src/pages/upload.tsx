@@ -1,6 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useFormState } from "react-hook-form";
-import { v4 as uuid } from "uuid";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -18,13 +17,12 @@ import { Input } from "@/components/ui/input";
 import Editor from "@/components/Editor";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@clerk/clerk-react";
-import DownshiftInput from "@/components/DownshiftInput";
 import { type ChangeEvent, useState } from "react";
-import { Badge } from "@/components/ui/badge";
 import { useMutation } from "convex/react";
 import { useUploadFiles } from "@xixixao/uploadstuff/react";
 import { api } from "../../convex/_generated/api";
 import { LoaderCircle } from "lucide-react";
+import KeywordsInput from "@/components/tag-input";
 
 const FILE_MAX_SIZE = 1024 * 1024 * 1.5; // 1.5MB
 
@@ -43,7 +41,12 @@ const ProfileForm = () => {
   const create = useMutation(api.blog.create);
   const { startUpload } = useUploadFiles(generateUploadUrl);
 
-  const [categories, setCategories] = useState<string[]>([]);
+  const [keywords, setKeywords] = useState<string[]>([]);
+
+  const handleKeywordsChange = (newKeywords: string[]) => {
+    setKeywords(newKeywords);
+  };
+
   const [file, setFile] = useState<File[] | null>(null);
 
   const { isLoaded, userId } = useAuth();
@@ -101,7 +104,7 @@ const ProfileForm = () => {
     await create({
       title: values.title,
       content: values.content,
-      categories,
+      categories: keywords,
       imageId: response.storageId,
     });
 
@@ -151,29 +154,10 @@ const ProfileForm = () => {
           )}
         />
 
-        <FormField
-          name="categories"
-          render={() => (
-            <FormItem>
-              <FormLabel>Categories</FormLabel>
-              <FormControl>
-                <DownshiftInput setCategories={setCategories} />
-              </FormControl>
-              <FormDescription>This is your blog categories.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
+        <KeywordsInput
+          initialKeywords={keywords}
+          onKeywordsChange={handleKeywordsChange}
         />
-
-        {categories.length > 0 && (
-          <div className="flex gap-2 flex-wrap overflow-hidden">
-            {categories.map((category) => (
-              <Badge key={uuid()} className="text-sm">
-                {category}
-              </Badge>
-            ))}
-          </div>
-        )}
 
         <FormField
           control={form.control}

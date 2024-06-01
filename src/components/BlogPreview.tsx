@@ -1,6 +1,7 @@
 import { extractTextFromHtml } from "@/tiptap/tiptaptohtml";
 import { Link } from "react-router-dom";
 import type { Id } from "convex/_generated/dataModel";
+import { Badge } from "./ui/badge";
 
 type Props = {
   title: string;
@@ -8,15 +9,17 @@ type Props = {
   name: string;
   userImage: string;
   blogImage: string | null;
+  categories: string[];
   id: Id<"blogs">;
 };
 
-export default function Blog({
+function BlogPreview({
   title,
   content,
   userImage,
   name,
   blogImage,
+  categories,
   id: blog,
 }: Props) {
   return (
@@ -44,6 +47,14 @@ export default function Blog({
           </div>
         </div>
       </Link>
+      {categories.length > 1 && (
+        <div className="flex gap-2">
+          {categories.slice(1).map((category) => (
+            <Badge key={category}>{category}</Badge>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
+export default BlogPreview;

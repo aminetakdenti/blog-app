@@ -15,4 +15,8 @@ export default defineSchema({
     imageId: v.string(),
     categories: v.array(v.string()),
   }),
+  category: defineTable({
+    name: v.string(),
+    usageCount: v.number(),
+  }),
 });

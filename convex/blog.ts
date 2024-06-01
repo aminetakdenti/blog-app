@@ -10,6 +10,7 @@ export const list = query({
       blogs.map(async (blog) => {
         // For each message in this channel, fetch the `User` who wrote it and
         // insert their name into the `author` field.
+        // insert their blog image into the `blogImage` field.
         const user = await ctx.db.get(blog.userId as Id<"users">);
         const image = await ctx.storage.getUrl(blog.imageId);
         return {
@@ -19,7 +20,6 @@ export const list = query({
         };
       })
     );
-    // return await ctx.db.query("blogs").order("desc").collect();
   },
 });
 
@@ -79,7 +79,6 @@ export const create = mutation({
   },
   handler: async (ctx, { title, content, imageId, categories }) => {
     const identity = await ctx.auth.getUserIdentity();
-    console.log(identity);
     if (!identity) {
       throw new Error("Unauthenticated call to mutation");
     }
@@ -93,17 +92,6 @@ export const create = mutation({
     if (!user) {
       throw new Error("Unauthenticated call to mutation");
     }
-    // if (!user) {
-    //   await store(ctx, identity);
-    //   // throw new Error("Unauthenticated call to mutation");
-    //   user = await ctx.db
-    //     .query("users")
-    //     .withIndex("by_token", (q) =>
-    //       q.eq("tokenIdentifier", identity.tokenIdentifier)
-    //     )
-    //     .unique();
-    //   if (!user) throw new Error("Server Error");
-    // }
 
     return await ctx.db.insert("blogs", {
       title,

@@ -1,5 +1,5 @@
 import { useBlog } from "@/hooks/useBlog";
-import Blog from "@/components/Blog";
+import BlogPreview from "@/components/BlogPreview";
 import { getFirst20Words } from "@/lib/utils";
 
 export default function Home() {
@@ -11,7 +11,7 @@ export default function Home() {
       ) : list.length ? (
         list.map((blog) => {
           return (
-            <Blog
+            <BlogPreview
               title={blog.title}
               content={getFirst20Words(blog.content)}
               name={blog.name || ""}
@@ -19,6 +19,7 @@ export default function Home() {
               userImage={blog.imageUrl || ""}
               key={blog._id as string}
               blogImage={blog.blogImage}
+              categories={blog.categories}
             />
           );
         })
