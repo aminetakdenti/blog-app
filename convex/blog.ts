@@ -61,8 +61,10 @@ export const getUserBlogs = query({
 
     return Promise.all(
       blogs.map(async (blog) => {
+        const blogImage = await ctx.storage.getUrl(blog.imageId);
         return {
           ...user,
+          blogImage,
           ...blog,
         };
       })

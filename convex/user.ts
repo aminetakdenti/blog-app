@@ -45,11 +45,31 @@ export const getUser = query({
     id: v.id("users"),
   },
   handler: async (ctx, { id }) => {
-    const user = await ctx.db.get(id);
+    try {
+      const user = await ctx.db
+        .query("users")
+        .filter((q) => q.eq(q.field("_id"), id))
+        .unique();
 
-    if (!user) {
-      throw new Error("User not found");
+      if (!user) {
+        console.log("User not found");
+        return {
+          status: 404,
+          message: "User not found",
+        };
+      }
+
+      return {
+        status: 200,
+        data: user,
+      };
+    } catch (error: unknown) {
+      console.error("Error fetching user:", error);
+      return {
+        status: 500,
+        message: "Internal Server Error",
+        error: (error as { message: string })?.message,
+      };
     }
-    return user;
   },
 });
