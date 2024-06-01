@@ -15,6 +15,7 @@ const KeywordsInput: React.FC<KeywordsInputProps> = ({
   initialKeywords = [],
   onKeywordsChange,
 }) => {
+  const [focus, setFocus] = useState<boolean>(false);
   const [keywords, setKeywords] = useState<string[]>(initialKeywords);
   const [inputValue, setInputValue] = useState<string>("");
   const [suggestions, setSuggestions] = useState<
@@ -91,6 +92,7 @@ const KeywordsInput: React.FC<KeywordsInputProps> = ({
     if (inputValue.trim() !== "" && event.relatedTarget?.tagName !== "BUTTON") {
       addKeyword(inputValue.trim());
     }
+    setFocus(false);
   };
 
   const addKeyword = async (keyword: string) => {
@@ -114,7 +116,9 @@ const KeywordsInput: React.FC<KeywordsInputProps> = ({
   };
 
   return (
-    <div className="flex w-full flex-wrap items-center rounded-lg border p-2 ">
+    <div
+      className={` flex w-full flex-wrap items-center rounded-lg border border-input p-1 bg-background  ring-offset-background ${focus ? "ring-ring ring-2 ring-offset-2" : "ring-transparent ring-0 ring-offset-0"} `}
+    >
       <div
         className="flex w-full flex-wrap overflow-y-auto items-center"
         style={{ maxHeight: "300px" }}
@@ -139,6 +143,7 @@ const KeywordsInput: React.FC<KeywordsInputProps> = ({
           onBlur={handleBlur}
           className="flex-1 min-w-20 text-sm border-none outline-none focus-visible:ring-0 focus-visible:ring-offset-0 py-0"
           placeholder="Type keyword and press Enter..."
+          onFocus={() => setFocus(true)}
         />
       </div>
       {suggestions.length > 0 && (

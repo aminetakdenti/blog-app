@@ -74,11 +74,12 @@ const Editor = ({ content, setContent }: Props) => {
     },
   });
 
+  if (!editor) return null;
+
   return (
-    <div className="flex flex-col gap-3  ">
-      {/* biome-ignore lint/style/noNonNullAssertion: <explanation> */}
-      <MenuBar editor={editor!} />
-      <div className="group h-[400px] overflow-auto">
+    <div className="flex flex-col gap-3 bg-background">
+      <MenuBar editor={editor} />
+      <div className="h-[400px] overflow-auto rounded bg-background">
         <EditorContent editor={editor} className=" flex-1 " role="textbox" />
       </div>
     </div>
