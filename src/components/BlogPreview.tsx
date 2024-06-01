@@ -43,7 +43,11 @@ function BlogPreview({
             </div>
           </div>
           <div className="h-28 w-36 overflow-hidden">
-            <img src={blogImage || ""} alt={title} />
+            <img
+              src={blogImage || ""}
+              alt={title}
+              className="object-contain w-full h-full"
+            />
           </div>
         </div>
       </Link>

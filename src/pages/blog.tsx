@@ -28,11 +28,11 @@ function Blog() {
     <div className="space-y-14 md:w-[700px] md:mx-auto  ">
       <div className="space-y-4 divide-y dark:divide-slate-800 md:w-[700px] md:mx-auto  ">
         <h1 className="text-5xl font-extrabold leading-tight">{blog.title}</h1>
-        <div>
+        <div className="w-full h-96 overflow-hidden">
           <img
             src={blog.blogImage ?? ""}
             alt={blog.title}
-            className="w-full h-96 object-cover"
+            className="w-full h-full object-contain"
           />
         </div>
         <div>

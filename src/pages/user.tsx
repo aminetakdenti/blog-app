@@ -1,19 +1,38 @@
 import type { Id } from "../../convex/_generated/dataModel";
 import { api } from "../../convex/_generated/api";
-import { useQuery } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { useParams } from "react-router-dom";
 import { extractTextFromHtml } from "@/tiptap/tiptaptohtml";
 import Loader from "@/components/loader";
 import { convertTimestampToDateString } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Trash2 } from "lucide-react";
+import { useUser } from "@clerk/clerk-react";
 
 function User() {
   const navigate = useNavigate();
   const { id } = useParams();
+  const currentUser = useUser();
   // Use the validated ID in the query
   const user = useQuery(api.user.getUser, { id: id as Id<"users"> });
   const blogs = useQuery(api.blog.getUserBlogs, { userId: id as Id<"users"> });
+  const deleteMe = useMutation(api.blog.deleteBlog);
+
+  const [deleteBlog, setDelete] = useState(false);
+
+  useEffect(() => {
+    if (
+      currentUser &&
+      currentUser.user &&
+      currentUser.user.id &&
+      id === currentUser.user.id
+    ) {
+      setDelete(true);
+    }
+  }, [id, currentUser]);
 
   // Validate the ID
   if (!user)
@@ -74,6 +93,18 @@ function User() {
                   ))}
                 </div>
               </div>
+              {deleteBlog && (
+                <div className="flex-1 text-right">
+                  <Button
+                    size="icon"
+                    variant="secondary"
+                    type="button"
+                    onClick={() => deleteMe({ id: blog._id as Id<"blogs"> })}
+                  >
+                    <Trash2 color="#ff5252" />
+                  </Button>
+                </div>
+              )}
             </div>
           ))}
         </div>
