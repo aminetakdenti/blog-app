@@ -154,9 +154,22 @@ const ProfileForm = () => {
           )}
         />
 
-        <KeywordsInput
-          initialKeywords={keywords}
-          onKeywordsChange={handleKeywordsChange}
+        <FormField
+          render={() => (
+            <FormItem>
+              <FormLabel>Categories</FormLabel>
+              <FormControl>
+                <KeywordsInput
+                  initialKeywords={keywords}
+                  onKeywordsChange={handleKeywordsChange}
+                />
+              </FormControl>
+              <FormDescription>
+                This is your categories for your blog.
+              </FormDescription>
+            </FormItem>
+          )}
+          name={""}
         />
 
         <FormField
