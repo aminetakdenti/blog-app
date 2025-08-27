@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { ModeToggle } from "./mode-toggle";
 import SignedInPart from "./SignedInPart";
 import SignedOutPart from "./SignedOutPart";

@@ -15,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 
 import Editor from "@/components/Editor";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { useAuth } from "@clerk/clerk-react";
 import { type ChangeEvent, useState } from "react";
 import { useMutation } from "convex/react";

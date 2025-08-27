@@ -1,5 +1,5 @@
 import { convertTimestampToDateString } from "@/lib/utils";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 type Props = {
 	userId: string;

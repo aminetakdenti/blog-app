@@ -1,11 +1,10 @@
 import type { Id } from "../../convex/_generated/dataModel";
 import { api } from "../../convex/_generated/api";
 import { useMutation, useQuery } from "convex/react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router";
 import { extractTextFromHtml } from "@/tiptap/tiptaptohtml";
 import Loader from "@/components/loader";
 import { convertTimestampToDateString } from "@/lib/utils";
-import { useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";

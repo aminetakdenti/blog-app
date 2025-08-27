@@ -1,5 +1,5 @@
 import { extractTextFromHtml } from "@/tiptap/tiptaptohtml";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import type { Id } from "convex/_generated/dataModel";
 import { Badge } from "./ui/badge";
 

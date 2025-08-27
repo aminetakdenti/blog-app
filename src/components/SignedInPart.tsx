@@ -1,5 +1,5 @@
 import { UserButton } from "@clerk/clerk-react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { Button } from "./ui/button";
 import { PencilLine } from "lucide-react";
 import { Authenticated } from "convex/react";
