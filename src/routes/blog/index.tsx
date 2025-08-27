@@ -2,8 +2,8 @@ import BlogUserLink from "@/components/BlogUserLink";
 import { useQuery } from "convex/react";
 import { useEffect, useRef } from "react";
 import { useParams } from "react-router";
-import { api } from "../../convex/_generated/api";
-import type { Id } from "../../convex/_generated/dataModel";
+import { api } from "../../../convex/_generated/api";
+import type { Id } from "../../../convex/_generated/dataModel";
 import { Badge } from "@/components/ui/badge";
 
 import { v4 as uuid } from "uuid";

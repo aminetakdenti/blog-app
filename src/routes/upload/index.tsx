@@ -20,7 +20,7 @@ import { useAuth } from "@clerk/clerk-react";
 import { type ChangeEvent, useState } from "react";
 import { useMutation } from "convex/react";
 import { useUploadFiles } from "@xixixao/uploadstuff/react";
-import { api } from "../../convex/_generated/api";
+import { api } from "../../../convex/_generated/api";
 import { LoaderCircle } from "lucide-react";
 import KeywordsInput from "@/components/tag-input";
 
